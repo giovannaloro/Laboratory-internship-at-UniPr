@@ -1,0 +1,7 @@
+Metrics of models trained on original dataset calculated over test dataset
+
+rf matrics: f1micro:0.6923076923076923, f1macro:0.6990331781085432, accuracy:0.6923076923076923
+ab matrics: f1micro:0.7412587412587412, f1macro:0.7482620320855615, accuracy:0.7412587412587412
+cnn matrics: f1micro:0.6993007063865662, f1macro:0.7014069557189941, accuracy:0.6993007063865662
+nn matrics: f1micro:0.748251736164093, f1macro:0.7520380020141602, accuracy:0.748251736164093
+

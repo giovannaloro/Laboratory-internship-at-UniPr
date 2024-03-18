@@ -1,0 +1,2 @@
+tvae best 0.49, rtvae best 0.45, nflow best 0.49, ddpm best 0.40, ctgan best 0.71
+smoteng_ctgan best 0.79, smotenc_ddpm best 0.73, smotenc nflow best 0.39, smotenc_tvae best 0.70, smotenc_rtvae best 0.79
