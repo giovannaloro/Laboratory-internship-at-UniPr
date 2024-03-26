@@ -9,17 +9,12 @@ from sklearn.ensemble import RandomForestClassifier
 
 #uplouading dataset 
 os.chdir("..")
-datasets=['MLMED_Dataset_preprocessed_full.csv','ML_MED_Dataset_validation_preprocessed_full.csv','ML_MED_Dataset_test_preprocessed_full.csv','ML_MED_Dataset_train_preprocessed_full.csv']
+datasets=['ML_MED_Dataset_Processed.csv']
 for dataset in datasets:
-    df = pd.read_csv(f'dataset/{dataset}')
-    X_num = df.iloc[:,1:5]
-    print(X_num)
-    X_cat = df.loc[:,['Cardiopatia ischemica cronica','Insulina','ARITMIA_TPSV','ROBOTICA','ENDOSCOPIA','LAPAROSCOPIA','OPEN','ASA_2.0','Antipertensivi','Fumo','MALLAMPATI_2.0','MALLAMPATI_4.0','Anticoagulanti','Catetere vescicale','DIABETE_MELLITO_1','TIGO','Antiaritmici']]
     #selecting important features 
-    X_num = pd.DataFrame(X_num, columns = ['Età','Peso','Altezza','BMI'])
-    X = X_num.join(X_cat)
-    y = df.iloc[:,47:52]
-    output_dataset = X.join(y)
+    df = pd.read_csv(f'dataset/processed_datasets/{dataset}')
+    X = df.loc[:,['Età','Sesso','Peso','Altezza','BMI','Fumo','OSAS','BPCO','Ipertensione arteriosa','Cardiopatia ischemica cronica','Pregresso infarto miocardio','Pregresso SCC','Ictus','Pregresso TIA',	'Altro_comorbidita','Antipertensivi','Broncodilatatori','Antiaritmici','Anticoagulanti','Antiaggreganti','TIGO','Insulina','Altro_terapia','DIABETE_MELLITO_2','DIABETE_MELLITO_1','ARITMIA_NO','ARITMIA_FA','ARITMIA_TACHI','ARITMIA_TPSV','INTERVENTI SULL’APPARATO DIGERENTE','INTERVENTI SUL SISTEMA ENDOCRINO','INTERVENTI SUL SISTEMA CARDIOVASCOLARE'
+]]
     #saving preprocessed dataset
     file_name = dataset.split('_full.')[0] + '_important_features' + '.csv'
-    output_dataset.to_csv(file_name)
+    X.to_csv(file_name, index=False)

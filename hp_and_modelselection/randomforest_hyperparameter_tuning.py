@@ -2,7 +2,6 @@ import pandas
 import os 
 import scipy
 import numpy as np 
-from sklearn.datasets import make_classification
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn import datasets
@@ -12,12 +11,14 @@ from sklearn.model_selection import cross_val_score
 from sklearn.metrics import f1_score, accuracy_score
 #uplouading dataset 
 os.chdir('..')
-df = pandas.read_csv('dataset/ML_MED_Dataset_train_preprocessed_full.csv')
-X_train = df.iloc[:,1:46]
-y_train = df.iloc[:,46:52]
-df = pandas.read_csv('dataset/ML_MED_Dataset_validation_preprocessed_full.csv')
-X_validation = df.iloc[:,1:46]
-y_validation = df.iloc[:,46:52]
+df = pandas.read_csv('dataset/processed_datasets/ML_MED_Dataset_train_Processed_label.csv')
+X_train = df.iloc[:,0:29]
+y_train = df.iloc[:,29:30]
+y_train = np.ravel(y_train)
+df = pandas.read_csv('dataset/processed_datasets/ML_MED_Dataset_validation_Processed_label.csv')
+X_validation = df.iloc[:,0:29]
+y_validation = df.iloc[:,29:30]
+y_validation = np.ravel(y_validation)
 #training and hyperparamater tuning _____
 rf = RandomForestClassifier()
 params = {'n_estimators':[150,200,250,300,350,400,450,500], 'criterion':['gini','entropy','log_loss'],'max_features':['sqrt','log2'],

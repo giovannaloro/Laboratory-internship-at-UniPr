@@ -9,36 +9,34 @@ import os
 
 #importing dataset
 os.chdir('..')
-df = pandas.read_csv('dataset/ML_MED_Dataset_train_preprocessed_full.csv')
-X_train = df.iloc[:,1:46]
-y_train = df.iloc[:,46:52]
-df = pandas.read_csv('dataset/ML_MED_Dataset_validation_preprocessed_full.csv')
-X_validation = df.iloc[:,1:46]
-y_validation = df.iloc[:,46:52]
+df = pandas.read_csv('dataset/processed_datasets/ML_MED_Dataset_train_Processed_onehot.csv')
+X_train = df.iloc[:,0:29]
+y_train = df.iloc[:,29:32]
+df = pandas.read_csv('dataset/processed_datasets/ML_MED_Dataset_validation_Processed_onehot.csv')
+X_validation = df.iloc[:,0:29]
+y_validation = df.iloc[:,29:32]
 
-
-#hyperparameter tuning 
 def build_model(hp):
 
     model = keras.Sequential()
 
     input_dropout = hp.Choice("indrop", values=[0.1,0.2,0.3] )
-    input_layer = keras.layers.Dense(46, input_shape=[46],activation='relu')
+    input_layer = keras.layers.Dense(30, input_shape=[29],activation='relu')
     model.add(keras.layers.Dropout(input_dropout))
 
     inner_layers=hp.Choice("inner_layers", values=[1,2,3])
     dense_dropout = hp.Choice("densedrop", values=[0.3,0.4,0.5,0.6])
 
     for x in range(inner_layers):
-        model.add(keras.layers.Dense(46, activation='relu'))
+        model.add(keras.layers.Dense(30, activation='relu'))
         model.add(keras.layers.Dropout(dense_dropout))
 
-    output_layer = keras.layers.Dense(5, activation='softmax')
+    output_layer = keras.layers.Dense(3, activation='softmax')
     model.add(output_layer)
 
-    learning_rate = hp.Choice("lr", values=[0.0001,0.001,0.01,0.1])
-    momentum = hp.Choice("momentum", values=[0.0001,0.001,0.01,0.1])
-    model.compile(optimizer=keras.optimizers.SGD( learning_rate=learning_rate, momentum=momentum), loss ='categorical_crossentropy', metrics=["categorical_accuracy",tfa.metrics.F1Score(average='macro',num_classes=5,name="macro_f1"),tfa.metrics.F1Score(average='micro',num_classes=5,name="micro_f1")])
+    learning_rate = hp.Choice("lr", values=[0.0001,0.001])
+    momentum = hp.Choice("momentum", values=[0.0001,0.001])
+    model.compile(optimizer=keras.optimizers.SGD( learning_rate=learning_rate, momentum=momentum), loss ='categorical_crossentropy', metrics=["categorical_accuracy",tfa.metrics.F1Score(average='macro',num_classes=3,name="macro_f1"),tfa.metrics.F1Score(average='micro',num_classes=3,name="micro_f1")])
     return model
 
 tuner = keras_tuner.GridSearch(

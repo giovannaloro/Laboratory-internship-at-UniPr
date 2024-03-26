@@ -17,35 +17,30 @@ from sklearn.tree import DecisionTreeClassifier
 
 os.chdir('..')
 datasets = []
-models = ["ddpm", "tvae", "rtvae", "ctgan", "nflow"]
-for model in models:
-    for i in range (2):
-        for j in range(5):
-            datasets.append(f"dataset_{model}_smotenc_generated_{i}_{j}.csv")
+for i in range(10):
+    datasets.append(f"optimal_dataset_{i}.csv")
 datasets_means = []
-best_params = {'algorithm': 'SAMME', 'estimator': SGDClassifier(), 'learning_rate': 0.001, 'n_estimators': 150}
-df = pandas.read_csv('dataset/ML_MED_Dataset_validation_preprocessed_full_label.csv')
-X_validation = df.iloc[:,1:46]
-y_validation = df.iloc[:,46:47]
+best_params = {'algorithm': 'SAMME', 'estimator': SGDClassifier(), 'learning_rate': 0.01, 'n_estimators': 300}
+df = pandas.read_csv('dataset/processed_datasets/ML_MED_Dataset_validation_Processed_label.csv')
+X_validation = df.iloc[:,0:29]
+y_validation = df.iloc[:,29:30]
 print(X_validation)
 print(y_validation)
 y_validation = np.ravel(y_validation)
 
 for dataset in datasets:
     #load dataset 
-    df = pandas.read_csv(f"augmented_dataset/{dataset}")
-    X_train = df.iloc[:,0:45]
-    y_train = df.iloc[:,45:46]
+    df = pandas.read_csv(f"{dataset}")
+    X_train = df.iloc[:,0:29]
+    y_train = df.iloc[:,29:30]
     print(X_train)
     print(y_train)
     y_train = np.ravel(y_train)
     df1 = len(df[df["tipo_operazione"]==0])
     df2 = len(df[df["tipo_operazione"]==1])
     df3 = len(df[df["tipo_operazione"]==2])
-    df4 = len(df[df["tipo_operazione"]==3])
-    df5 = len(df[df["tipo_operazione"]==4])
     print(dataset)
-    print(f"class_0:{df1},class_1:{df2},class_2:{df3},class_3:{df4},class_4:{df5}")
+    print(f"class_0:{df1},class_1:{df2},class_2:{df3}")
     dataset_scores = []
     for i in range(10):
         ab = AdaBoostClassifier(**best_params)

@@ -2,9 +2,7 @@ import pandas
 import os 
 import scipy 
 import numpy as np
-from sklearn.datasets import make_classification
 from sklearn.ensemble import AdaBoostClassifier
-from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import f1_score, accuracy_score
 from sklearn.naive_bayes import GaussianNB
@@ -15,17 +13,14 @@ from sklearn.tree import DecisionTreeClassifier
 
 #uplouading dataset 
 os.chdir('..')
-df = pandas.read_csv('dataset/ML_MED_Dataset_train_preprocessed_full_label.csv')
-X_train = df.iloc[:,1:46]
-y_train = df.iloc[:,46:47]
-print(X_train)
-print(y_train)
+df = pandas.read_csv('dataset/processed_datasets/ML_MED_Dataset_train_Processed_label.csv')
+X_train = df.iloc[:,0:29]
+y_train = df.iloc[:,29:30]
 y_train = np.ravel(y_train)
-df = pandas.read_csv('dataset/ML_MED_Dataset_validation_preprocessed_full_label.csv')
-X_validation = df.iloc[:,1:46]
-y_validation = df.iloc[:,46:47]
+df = pandas.read_csv('dataset/processed_datasets/ML_MED_Dataset_validation_Processed_label.csv')
+X_validation = df.iloc[:,0:29]
+y_validation = df.iloc[:,29:30]
 y_validation = np.ravel(y_validation)
-
 #training and hyperparameters tuning
 gnb = GaussianNB()
 sgd = SGDClassifier()
