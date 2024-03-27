@@ -1,0 +1,34 @@
+original_dataset
+Randomforest
+              precision    recall  f1-score   support
+
+     class 0       0.39      1.00      0.57        30
+     class 1       1.00      0.18      0.30        28
+     class 2       1.00      0.23      0.38        30
+
+    accuracy                           0.48        88
+   macro avg       0.80      0.47      0.42        88
+weighted avg       0.79      0.48      0.42        88
+
+Adaboost
+              precision    recall  f1-score   support
+
+     class 0       0.41      1.00      0.58        30
+     class 1       1.00      0.18      0.30        28
+     class 2       1.00      0.30      0.46        30
+
+    accuracy                           0.50        88
+   macro avg       0.80      0.49      0.45        88
+weighted avg       0.80      0.50      0.45        88
+
+Neural_network
+              precision    recall  f1-score   support
+
+     class 0       0.36      0.73      0.48        30
+     class 1       0.50      0.14      0.22        28
+     class 2       0.63      0.40      0.49        30
+
+    accuracy                           0.43        88
+   macro avg       0.50      0.43      0.40        88
+weighted avg       0.50      0.43      0.40        88
+

@@ -7,34 +7,35 @@ import os
 import matplotlib.pyplot as plt
 import tensorflow_addons as tfa
 from tensorflow.keras.models import load_model
-from sklearn.metrics import f1_score, accuracy_score
+from sklearn.metrics import  precision_recall_fscore_support, classification_report
 
 #load dataset 
 os.chdir("..")
-df = pd.read_csv("dataset/processed_datasets/ML_MED_Dataset_test_Processed_onehot.csv")
+df = pd.read_csv("dataset/processed_datasets/ML_MED_Dataset_validation_Processed_onehot.csv")
 X_test = df.iloc[:,0:29]
 y_test = df.iloc[:,29:32]
-df = pd.read_csv("dataset/processed_datasets/ML_MED_Dataset_test_Processed_label.csv")
+df = pd.read_csv("dataset/processed_datasets/ML_MED_Dataset_validation_Processed_label.csv")
 y_test_label = df.iloc[:,29:30]
 y_test_label = np.ravel(y_test_label)
 
 models = [""]
+target_names = ['class 0', 'class 1', 'class 2']
 for model in models:
+    print(f"original_dataset")
     #randomforest metrics calculation
-    rf = joblib.load(f"models/3classes/rf_{model}_model_best.sav")
+    print("Randomforest")
+    rf = joblib.load(f"models/3classes/rf_model_best.sav")
     y_pred = rf.predict(X_test)
-    f_one_micro = f1_score(y_test_label, y_pred, average="micro")
-    f_one_macro = f1_score(y_test_label, y_pred, average="macro")
-    accuracy = accuracy_score(y_test_label, y_pred)
-    print(f"rf {model} dataset metrics: f1micro:{f_one_micro}, f1macro:{f_one_macro}, accuracy:{accuracy}")
+    class_prf = precision_recall_fscore_support(y_test_label, y_pred, average = None)
+    print(classification_report(y_test_label, y_pred, target_names=target_names, zero_division=0.0))
     #adaboost metrics calculation
-    ab = joblib.load(f"models/3classes/ab_{model}_model_best.sav") 
+    print("Adaboost")
+    ab = joblib.load(f"models/3classes/ab_model_best.sav") 
     y_pred = ab.predict(X_test)
-    f_one_micro = f1_score(y_test_label, y_pred, average="micro")
-    f_one_macro = f1_score(y_test_label, y_pred, average="macro")
-    accuracy = accuracy_score(y_test_label, y_pred)
-    print(f"ab {model} dataset metrics: f1micro:{f_one_micro}, f1macro:{f_one_macro}, accuracy:{accuracy}")
+    class_prf = precision_recall_fscore_support(y_test_label, y_pred, average = None)
+    print(classification_report(y_test_label, y_pred, target_names=target_names, zero_division=0.0))
     #nn metrics calculation
-    nn = load_model(f"models/3classes/trained_model_{model}_best.h5")
-    metrics = nn.evaluate(X_test, y_test)
-    print(f"nn {model} dataset metrics: f1micro:{metrics[3]}, f1macro:{metrics[2]}, accuracy:{metrics[1]}")
+    print("Neural_network")
+    nn = load_model(f"models/3classes/trained_model_best.h5")
+    y_pred = np.argmax(nn.predict(X_test, verbose=0), axis=1)
+    print(classification_report(y_test_label, y_pred, target_names=target_names, zero_division=0.0))
